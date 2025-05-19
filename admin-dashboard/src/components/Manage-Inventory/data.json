@@ -1,0 +1,303 @@
+[
+  {
+    "id": 1,
+    "material_grade_id": "MG-001",
+    "supplier_name": "ABC Metals",
+    "purchase_order_number": "PO-2024-001",
+    "material_invoice_chalan_no": "INV-56789",
+    "material_lot_no": "LOT-12345",
+    "material_quantity": 100,
+    "material_quantity_kg": 500
+  },
+  {
+    "id": 2,
+    "material_grade_id": "MG-002",
+    "supplier_name": "XYZ Steels",
+    "purchase_order_number": "PO-2024-002",
+    "material_invoice_chalan_no": "INV-67890",
+    "material_lot_no": "LOT-67890",
+    "material_quantity": 200,
+    "material_quantity_kg": 1000
+  },
+  {
+    "id": 3,
+    "material_grade_id": "MG-003",
+    "supplier_name": "LMN Alloys",
+    "purchase_order_number": "PO-2024-003",
+    "material_invoice_chalan_no": "INV-78901",
+    "material_lot_no": "LOT-54321",
+    "material_quantity": 150,
+    "material_quantity_kg": 750
+  },
+  {
+    "id": 4,
+    "material_grade_id": "MG-004",
+    "supplier_name": "PQR Metals",
+    "purchase_order_number": "PO-2024-004",
+    "material_invoice_chalan_no": "INV-12345",
+    "material_lot_no": "LOT-67812",
+    "material_quantity": 180,
+    "material_quantity_kg": 900
+  },
+  {
+    "id": 5,
+    "material_grade_id": "MG-005",
+    "supplier_name": "JKL Steels",
+    "purchase_order_number": "PO-2024-005",
+    "material_invoice_chalan_no": "INV-67891",
+    "material_lot_no": "LOT-23456",
+    "material_quantity": 300,
+    "material_quantity_kg": 1500
+  },
+  {
+    "id": 6,
+    "material_grade_id": "MG-006",
+    "supplier_name": "TUV Metals",
+    "purchase_order_number": "PO-2024-006",
+    "material_invoice_chalan_no": "INV-56790",
+    "material_lot_no": "LOT-98765",
+    "material_quantity": 120,
+    "material_quantity_kg": 600
+  },
+  {
+    "id": 7,
+    "material_grade_id": "MG-007",
+    "supplier_name": "DEF Alloys",
+    "purchase_order_number": "PO-2024-007",
+    "material_invoice_chalan_no": "INV-76543",
+    "material_lot_no": "LOT-32109",
+    "material_quantity": 400,
+    "material_quantity_kg": 2000
+  },
+  {
+    "id": 8,
+    "material_grade_id": "MG-008",
+    "supplier_name": "MNO Industries",
+    "purchase_order_number": "PO-2024-008",
+    "material_invoice_chalan_no": "INV-98765",
+    "material_lot_no": "LOT-45678",
+    "material_quantity": 250,
+    "material_quantity_kg": 1250
+  },
+  {
+    "id": 9,
+    "material_grade_id": "MG-009",
+    "supplier_name": "STU Steels",
+    "purchase_order_number": "PO-2024-009",
+    "material_invoice_chalan_no": "INV-11223",
+    "material_lot_no": "LOT-66789",
+    "material_quantity": 500,
+    "material_quantity_kg": 2500
+  },
+  {
+    "id": 10,
+    "material_grade_id": "MG-010",
+    "supplier_name": "VWX Metals",
+    "purchase_order_number": "PO-2024-010",
+    "material_invoice_chalan_no": "INV-22334",
+    "material_lot_no": "LOT-77890",
+    "material_quantity": 350,
+    "material_quantity_kg": 1750
+  },
+  {
+    "id": 11,
+    "material_grade_id": "MG-011",
+    "supplier_name": "RST Alloys",
+    "purchase_order_number": "PO-2024-011",
+    "material_invoice_chalan_no": "INV-33445",
+    "material_lot_no": "LOT-88901",
+    "material_quantity": 275,
+    "material_quantity_kg": 1375
+  },
+  {
+    "id": 12,
+    "material_grade_id": "MG-012",
+    "supplier_name": "OPQ Metals",
+    "purchase_order_number": "PO-2024-012",
+    "material_invoice_chalan_no": "INV-44556",
+    "material_lot_no": "LOT-99012",
+    "material_quantity": 225,
+    "material_quantity_kg": 1125
+  },
+  {
+    "id": 13,
+    "material_grade_id": "MG-013",
+    "supplier_name": "GHI Steels",
+    "purchase_order_number": "PO-2024-013",
+    "material_invoice_chalan_no": "INV-55667",
+    "material_lot_no": "LOT-00123",
+    "material_quantity": 325,
+    "material_quantity_kg": 1625
+  },
+  {
+    "id": 14,
+    "material_grade_id": "MG-014",
+    "supplier_name": "CDE Metals",
+    "purchase_order_number": "PO-2024-014",
+    "material_invoice_chalan_no": "INV-66778",
+    "material_lot_no": "LOT-11234",
+    "material_quantity": 275,
+    "material_quantity_kg": 1375
+  },
+  {
+    "id": 15,
+    "material_grade_id": "MG-015",
+    "supplier_name": "ABD Alloys",
+    "purchase_order_number": "PO-2024-015",
+    "material_invoice_chalan_no": "INV-77889",
+    "material_lot_no": "LOT-22345",
+    "material_quantity": 375,
+    "material_quantity_kg": 1875
+  },
+  {
+    "id": 16,
+    "material_grade_id": "MG-016",
+    "supplier_name": "XYZ Metals",
+    "purchase_order_number": "PO-2024-016",
+    "material_invoice_chalan_no": "INV-88990",
+    "material_lot_no": "LOT-33456",
+    "material_quantity": 425,
+    "material_quantity_kg": 2125
+  },
+  {
+    "id": 17,
+    "material_grade_id": "MG-017",
+    "supplier_name": "LMN Steels",
+    "purchase_order_number": "PO-2024-017",
+    "material_invoice_chalan_no": "INV-99001",
+    "material_lot_no": "LOT-44567",
+    "material_quantity": 475,
+    "material_quantity_kg": 2375
+  },
+  {
+    "id": 18,
+    "material_grade_id": "MG-018",
+    "supplier_name": "PQR Alloys",
+    "purchase_order_number": "PO-2024-018",
+    "material_invoice_chalan_no": "INV-00112",
+    "material_lot_no": "LOT-55678",
+    "material_quantity": 525,
+    "material_quantity_kg": 2625
+  },
+  {
+    "id": 19,
+    "material_grade_id": "MG-019",
+    "supplier_name": "JKL Metals",
+    "purchase_order_number": "PO-2024-019",
+    "material_invoice_chalan_no": "INV-11223",
+    "material_lot_no": "LOT-66789",
+    "material_quantity": 575,
+    "material_quantity_kg": 2875
+  },
+  {
+    "id": 20,
+    "material_grade_id": "MG-020",
+    "supplier_name": "TUV Steels",
+    "purchase_order_number": "PO-2024-020",
+    "material_invoice_chalan_no": "INV-22334",
+    "material_lot_no": "LOT-77890",
+    "material_quantity": 625,
+    "material_quantity_kg": 3125
+  },
+  {
+    "id": 21,
+    "material_grade_id": "MG-021",
+    "supplier_name": "DEF Metals",
+    "purchase_order_number": "PO-2024-021",
+    "material_invoice_chalan_no": "INV-33445",
+    "material_lot_no": "LOT-88901",
+    "material_quantity": 675,
+    "material_quantity_kg": 3375
+  },
+  {
+    "id": 22,
+    "material_grade_id": "MG-022",
+    "supplier_name": "MNO Steels",
+    "purchase_order_number": "PO-2024-022",
+    "material_invoice_chalan_no": "INV-44556",
+    "material_lot_no": "LOT-99012",
+    "material_quantity": 725,
+    "material_quantity_kg": 3625
+  },
+  {
+    "id": 23,
+    "material_grade_id": "MG-023",
+    "supplier_name": "STU Alloys",
+    "purchase_order_number": "PO-2024-023",
+    "material_invoice_chalan_no": "INV-55667",
+    "material_lot_no": "LOT-00123",
+    "material_quantity": 775,
+    "material_quantity_kg": 3875
+  },
+  {
+    "id": 24,
+    "material_grade_id": "MG-024",
+    "supplier_name": "VWX Metals",
+    "purchase_order_number": "PO-2024-024",
+    "material_invoice_chalan_no": "INV-66778",
+    "material_lot_no": "LOT-11234",
+    "material_quantity": 825,
+    "material_quantity_kg": 4125
+  },
+  {
+    "id": 25,
+    "material_grade_id": "MG-025",
+    "supplier_name": "RST Steels",
+    "purchase_order_number": "PO-2024-025",
+    "material_invoice_chalan_no": "INV-77889",
+    "material_lot_no": "LOT-22345",
+    "material_quantity": 875,
+    "material_quantity_kg": 4375
+  },
+  {
+    "id": 26,
+    "material_grade_id": "MG-026",
+    "supplier_name": "OPQ Alloys",
+    "purchase_order_number": "PO-2024-026",
+    "material_invoice_chalan_no": "INV-88990",
+    "material_lot_no": "LOT-33456",
+    "material_quantity": 925,
+    "material_quantity_kg": 4625
+  },
+  {
+    "id": 27,
+    "material_grade_id": "MG-027",
+    "supplier_name": "GHI Metals",
+    "purchase_order_number": "PO-2024-027",
+    "material_invoice_chalan_no": "INV-99001",
+    "material_lot_no": "LOT-44567",
+    "material_quantity": 975,
+    "material_quantity_kg": 4875
+  },
+  {
+    "id": 28,
+    "material_grade_id": "MG-028",
+    "supplier_name": "CDE Steels",
+    "purchase_order_number": "PO-2024-028",
+    "material_invoice_chalan_no": "INV-00112",
+    "material_lot_no": "LOT-55678",
+    "material_quantity": 1025,
+    "material_quantity_kg": 5125
+  },
+  {
+    "id": 29,
+    "material_grade_id": "MG-029",
+    "supplier_name": "ABD Alloys",
+    "purchase_order_number": "PO-2024-029",
+    "material_invoice_chalan_no": "INV-11223",
+    "material_lot_no": "LOT-66789",
+    "material_quantity": 1075,
+    "material_quantity_kg": 5375
+  },
+  {
+    "id": 30,
+    "material_grade_id": "MG-030",
+    "supplier_name": "XYZ Metals",
+    "purchase_order_number": "PO-2024-030",
+    "material_invoice_chalan_no": "INV-22334",
+    "material_lot_no": "LOT-77890",
+    "material_quantity": 1125,
+    "material_quantity_kg": 5625
+  }
+  
+]
