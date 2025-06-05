@@ -4,6 +4,7 @@ import { CastingUtilized } from "../models/castingUtilized.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Order } from "../models/order.model.js";
 import { MaterialRecieved } from "../models/materialRecieved.model.js";
+import { RotorOrder } from "../models/rotorOrder.model.js";
 
 const generateCastingReport = asyncHandler(async (req, res) => {
   const { startDate, endDate, castingName, rejectionCause } = req.body;
@@ -295,8 +296,94 @@ const getMaterialReceivedReport = asyncHandler(async (req, res) => {
 });
 
 
+const getRotorOrderProductionGraph = asyncHandler(async (req, res) => {
+  const { annexureNumber } = req.params;
+  console.log("Fetching production + rejection data for Rotor Order:", annexureNumber);
+
+  if (!annexureNumber) {
+    return res.status(400).json(new ApiResponse(400, null, "Annexure number is required"));
+  }
+
+  const rotorOrder = await RotorOrder.findOne({ annexureNumber }).lean();
+  if (!rotorOrder) {
+    return res.status(404).json(new ApiResponse(404, null, "Rotor order not found"));
+  }
+
+  // Production Graph: grouped by date
+  const productionGraph = await CastingUtilized.aggregate([
+    {
+      $match: {
+        $expr: {
+          $eq: [
+            { $toString: "$annexureNumber" },
+            annexureNumber.toString()
+          ]
+        }
+      }
+    },
+    {
+      $group: {
+        _id: {
+          date: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$createdAt"
+            }
+          }
+        },
+        totalQuantity: { $sum: "$quantityUsed" }
+      }
+    },
+    { $sort: { "_id.date": 1 } },
+    {
+      $project: {
+        date: "$_id.date",
+        totalQuantity: 1,
+        _id: 0
+      }
+    }
+  ]);
+
+  // Rejection Graph: grouped by cause
+  const rejectionGraph = await CastingUtilized.aggregate([
+    {
+      $match: {
+        $expr: {
+          $eq: [
+            { $toString: "$annexureNumber" },
+            annexureNumber.toString()
+          ]
+        }
+      }
+    },
+    {
+      $group: {
+        _id: "$rejectionCause",
+        count: { $sum: { $ifNull: ["$quantityRejected", 0] } }
+      }
+    },
+    {
+      $project: {
+        reason: "$_id",
+        count: 1,
+        _id: 0
+      }
+    }
+  ]);
+
+  const data = {
+    ...rotorOrder,
+    productionGraph,
+    rejectionGraph
+  };
+
+  console.log("Fetched rotor production and rejection data:", data);
+  return res.status(200).json(
+    new ApiResponse(200, data, "Rotor order with production and rejection data fetched")
+  );
+});
 
 
 
 
-export { generateCastingReport, getOrderProductionGraph, getMaterialReceivedReport};
+export { generateCastingReport, getOrderProductionGraph, getMaterialReceivedReport, getRotorOrderProductionGraph};

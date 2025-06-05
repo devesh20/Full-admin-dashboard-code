@@ -204,7 +204,7 @@ function ManageInventory() {
             </Tabs>
           </TabsContent>
           
-          <TabsContent value="2" className="mx-1">
+          <TabsContent value="2">
             <Tabs defaultValue="purchased" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-4 gap-2 p-1">
                 <TabsTrigger className="cursor-pointer text-xs sm:text-sm md:text-base px-2 py-1" value="purchased">Purchased</TabsTrigger>

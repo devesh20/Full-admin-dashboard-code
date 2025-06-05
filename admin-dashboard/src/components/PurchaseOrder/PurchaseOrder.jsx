@@ -168,11 +168,12 @@ export default function PurchaseOrder() {
 
   // Filter orders based on active tab and isRotor state
   const filteredOrders = useMemo(() => {
-    const dataToFilter = isRotor ? rotorOrders : orders;
-    return dataToFilter.filter(order => 
-      activeTab === "completed" ? order.isComplete : !order.isComplete
-    );
-  }, [orders, rotorOrders, activeTab, isRotor]);
+  const dataToFilter = isRotor ? rotorOrders : orders;
+  return (dataToFilter || []).filter(order =>
+    activeTab === "completed" ? order.isComplete : !order.isComplete
+  );
+}, [orders, rotorOrders, activeTab, isRotor]);
+
 
   // Column definitions
   const columnHelper = createColumnHelper();
@@ -188,7 +189,11 @@ export default function PurchaseOrder() {
             </button>
           )
         },
-        cell: info => info.getValue(),
+        cell: ({ getValue }) => (
+        <span className="font-medium text-sm text-gray-900 uppercase flex items-center ">
+          {getValue()}
+        </span>
+        )
       }),
       columnHelper.accessor('partNumber', {
         header: ({ column }) => {
@@ -200,7 +205,12 @@ export default function PurchaseOrder() {
             </button>
           )
         },
-        cell: info => info.getValue(),
+        cell: ({ getValue }) => (
+        <span className="text-md font-medium text-gray-800 tracking-wide">
+          {getValue()}
+        </span>
+)
+
       }),
       columnHelper.accessor('partName', {
         header: ({ column }) => {
@@ -212,7 +222,12 @@ export default function PurchaseOrder() {
             </button>
           )
         },
-        cell: info => info.getValue(),
+        cell: ({ getValue }) => (
+        <span className="font-medium text-sm text-blue-900 uppercase flex items-center gap-1">
+          {getValue()}
+        </span>
+        )
+
       }),
       columnHelper.accessor('dateOfOrder', {
         header: ({ column }) => {
@@ -224,16 +239,26 @@ export default function PurchaseOrder() {
             </button>
           )
         },
-        cell: info => {
-          const date = new Date(info.getValue());
-          return date.toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
+        cell: ({ getValue }) => {
+          const date = new Date(getValue());
+          const formattedDate = date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
           });
-        },
+          const formattedTime = date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          return (
+            <div className="text-sm leading-tight">
+              <div className="font-medium text-gray-800">{formattedDate}</div>
+              <div className="text-xs text-gray-500">{formattedTime}</div>
+            </div>
+          );
+        }
+
       }),
       columnHelper.accessor('dateOfCompletion', {
         header: ({ column }) => {
@@ -241,57 +266,121 @@ export default function PurchaseOrder() {
             <button
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-              Expected Completion Date
+              Exp. Completion Date
             </button>
           )
         },
-        cell: info => {
-          const date = new Date(info.getValue());
-          return date.toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
-        }
+        cell: ({ getValue }) => {
+        const date = new Date(getValue());
+        const formattedDate = date.toLocaleDateString('en-US', {
+          year: 'numeric', month: 'short', day: 'numeric'
+        });
+        const formattedTime = date.toLocaleTimeString('en-US', {
+          hour: '2-digit', minute: '2-digit'
+        });
+
+        return (
+          <div className="text-sm leading-tight">
+            <div className="font-medium text-gray-800">{formattedDate}</div>
+            <div className="text-xs text-gray-500">{formattedTime}</div>
+          </div>
+        );
+      }
+
       }),
+      // columnHelper.accessor('quantityProduced', {
+      //   header: ({ column }) => {
+      //     return (
+      //       <button
+      //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      //       >
+      //         Quantity Produced
+      //       </button>
+      //     )
+      //   },
+      //   cell: info => info.getValue(),
+      // }),
       columnHelper.accessor('quantityProduced', {
-        header: ({ column }) => {
+        header: 'Quantity Produced',
+        cell: ({ row }) => {
+          const { quantityProduced, originalQuantity } = row.original
+          const pct = quantityProduced / originalQuantity
+
+          const color =
+            pct === 0          ? 'bg-red-100 text-red-700'
+            : pct < 1          ? 'bg-yellow-100 text-yellow-800'
+            : /* pct === 1  */   'bg-green-100 text-green-800'
+
           return (
-            <button
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-              Quantity Produced
-            </button>
+            <span className={`px-2 py-0.5 rounded-full font-semibold ${color}`}>
+              {quantityProduced}
+            </span>
           )
         },
-        cell: info => info.getValue(),
       }),
       columnHelper.accessor('originalQuantity', {
         header: ({ column }) => {
           return (
             <button
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === 'asc')
+              }
+              className="flex items-center gap-1"
             >
               Target Quantity
             </button>
-          )
+          );
         },
-        cell: info => info.getValue(),
-      }),
-      columnHelper.accessor('quantity', {
-        header: ({ column }) => {
+        cell: ({ getValue }) => {
+          const qty = getValue();
           return (
-            <button
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            <span
+              className={`px-2 py-0.5  bg-gray-200 rounded-full text-sm font-medium text-gray-800'`}
             >
-              Remaining Quantity
-            </button>
-          )
+              {qty}
+            </span>
+          );
         },
-        cell: info => info.getValue(),
       }),
+
+      // columnHelper.accessor('originalQuantity', {
+      //   header: ({ column }) => {
+      //     return (
+      //       <button
+      //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      //       >
+      //         Target Quantity
+      //       </button>
+      //     )
+      //   },
+      //   cell: info => info.getValue(),
+      // }),
+      // columnHelper.accessor('quantity', {
+      //   header: ({ column }) => {
+      //     return (
+      //       <button
+      //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      //       >
+      //         Remaining Quantity
+      //       </button>
+      //     )
+      //   },
+      //   cell: info => info.getValue(),
+      // }),
+      columnHelper.accessor('quantity', {
+      header: 'Remaining',
+      cell: ({ getValue }) => {
+        const remaining = getValue()
+        const color =
+          remaining === 0 ? 'bg-green-100 text-green-800'
+                          : 'bg-orange-100 text-orange-800'
+        return (
+          <span className={`px-2 py-0.5 rounded-full font-semibold ${color}`}>
+            {remaining}
+          </span>
+        )
+      },
+    }),
     ];
 
     const rotorColumns = [
@@ -305,7 +394,11 @@ export default function PurchaseOrder() {
             </button>
           )
         },
-        cell: info => info.getValue(),
+        cell: ({ getValue }) => (
+        <span className="font-medium text-sm text-blue-900 uppercase flex items-center gap-1">
+          {getValue()}
+        </span>
+        )
       }),
       columnHelper.accessor('annexureNumber', {
         header: ({ column }) => {
@@ -329,16 +422,25 @@ export default function PurchaseOrder() {
             </button>
           )
         },
-        cell: info => {
-          const date = new Date(info.getValue());
-          return date.toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
+        cell: ({ getValue }) => {
+          const date = new Date(getValue());
+          const formattedDate = date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
           });
-        },
+          const formattedTime = date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          return (
+            <div className="text-sm leading-tight">
+              <div className="font-medium text-gray-800">{formattedDate}</div>
+              <div className="text-xs text-gray-500">{formattedTime}</div>
+            </div>
+          );
+        }
       }),
       columnHelper.accessor('dateOfCompletion', {
         header: ({ column }) => {
@@ -346,57 +448,89 @@ export default function PurchaseOrder() {
             <button
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-              Expected Completion Date
+              Exp. Completion Date
             </button>
           )
         },
-        cell: info => {
-          const date = new Date(info.getValue());
-          return date.toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
+        cell: ({ getValue }) => {
+          const date = new Date(getValue());
+          const formattedDate = date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
           });
+          const formattedTime = date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          return (
+            <div className="text-sm leading-tight">
+              <div className="font-medium text-gray-800">{formattedDate}</div>
+              <div className="text-xs text-gray-500">{formattedTime}</div>
+            </div>
+          );
         }
       }),
       columnHelper.accessor('quantityProduced', {
-        header: ({ column }) => {
+        header: 'Quantity Produced',
+        cell: ({ row }) => {
+          const { quantityProduced, originalQuantity } = row.original
+          const pct = quantityProduced / originalQuantity
+
+          const color =
+            pct === 0          ? 'bg-red-100 text-red-700'
+            : pct < 1          ? 'bg-yellow-100 text-yellow-800'
+            : /* pct === 1  */   'bg-green-100 text-green-800'
+
           return (
-            <button
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-              Quantity Produced
-            </button>
+            <span className={`px-2 py-0.5 rounded-full font-semibold ${color}`}>
+              {quantityProduced}
+            </span>
           )
         },
-        cell: info => info.getValue(),
       }),
       columnHelper.accessor('originalQuantity', {
-        header: ({ column }) => {
-          return (
-            <button
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-              Target Quantity
-            </button>
-          )
-        },
-        cell: info => info.getValue(),
-      }),
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() === 'asc')
+            }
+            className="flex items-center gap-1"
+          >
+            Target Quantity
+          </button>
+        );
+      },
+      cell: ({ getValue }) => {
+        const qty = getValue();
+        let colorClass = 'text-gray-900';
+
+        return (
+          <span
+            className={`px-2 py-0.5 bg-gray-200 rounded-full text-sm font-medium ${colorClass}`}
+          >
+            {qty}
+          </span>
+        );
+      },
+    }),
+
       columnHelper.accessor('quantity', {
-        header: ({ column }) => {
-          return (
-            <button
-              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            >
-              Remaining Quantity
-            </button>
-          )
-        },
-        cell: info => info.getValue(),
-      }),
+      header: 'Remaining',
+      cell: ({ getValue }) => {
+        const remaining = getValue()
+        const color =
+          remaining === 0 ? 'bg-green-100 text-green-800'
+                          : 'bg-orange-100 text-orange-800'
+        return (
+          <span className={`px-2 py-0.5 rounded-full font-semibold ${color}`}>
+            {remaining}
+          </span>
+        )
+      },
+    }),
     ];
 
     return isRotor ? rotorColumns : baseColumns;
@@ -596,7 +730,7 @@ export default function PurchaseOrder() {
                     </TableRow>
                   ))}
                 </TableHeader>
-                <TableBody>
+                <TableBody >
                   {table.getRowModel().rows?.length ? (
                     table.getRowModel().rows.map((row) => (
                       <TableRow key={row.id}>

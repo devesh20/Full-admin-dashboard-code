@@ -32,6 +32,7 @@ import PurchaseOrder from './components/PurchaseOrder/PurchaseOrder';
 import Profile from './components/Profile/Profile';
 import ProductionDetails from './components/ProductionProgress/ProductionDetails';
 import TotalInventory from './components/TotalInventory/TotalInventory';
+import ProductionRotorDetails from './components/ProductionProgress/ProductionRotorDetails';
 
 
 const router = createBrowserRouter([
@@ -161,7 +162,10 @@ const router = createBrowserRouter([
         path: "production-details/:poNumber",
         element: <ProductionDetails />,
       },
-
+      {
+        path: "production/:annexureNumber",
+        element: <ProductionRotorDetails/>,
+      },
       {
         path: "casting-specification",
         element: <CastingSpecification />,

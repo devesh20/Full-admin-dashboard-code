@@ -89,9 +89,9 @@ export default function RejectionChart() {
 		console.log("Formatted chart data:", formattedData);
 		setChartData(formattedData);
 	} catch (error) {
-        console.error("Error fetching rejection data:", error);
+        console.error("Failed to load rejection data for the past week.");
         console.error("Error details:", error.response?.data || error.message);
-        setError(`Error fetching data: ${error.message}`);
+        setError(`Failed to load rejection data for the past week.`);
         setChartData([]);
       } finally {
         setLoading(false);

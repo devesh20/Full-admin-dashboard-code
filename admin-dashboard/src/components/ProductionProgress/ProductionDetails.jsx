@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, Legend , LineChart, Line} from "recharts";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -241,17 +241,27 @@ const ProductionDetails = () => {
                   ) : (
                     <div className="h-[300px]">
                       <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={productionGraph}>
+                        <LineChart
+                          data={productionGraph}
+                          margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                          }}
+                        >
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis dataKey="date" />
                           <YAxis />
                           <Tooltip />
-                          <Bar
+                          <Legend />
+                          <Line
+                            type="monotone"
                             dataKey="totalQuantity"
-                            fill="#3b82f6"
-                            radius={[4, 4, 0, 0]}
+                            stroke="#3b82f6" // Blue color consistent with your theme
+                            activeDot={{ r: 8 }}
                           />
-                        </BarChart>
+                        </LineChart>
                       </ResponsiveContainer>
                     </div>
                   )}

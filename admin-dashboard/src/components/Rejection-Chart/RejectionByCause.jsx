@@ -84,9 +84,9 @@ function RejectionByCause() {
 		console.log("Formatted chart data:", formattedData);
 		setChartData(formattedData);
 	} catch (error) {
-        console.error("Error fetching rejection data:", error);
+        console.error("Failed to load rejection causes.");
         console.error("Error details:", error.response?.data || error.message);
-        setError(`Error fetching data: ${error.message}`);
+        setError(`Failed to load rejection causes.`);
         setChartData([]);
       } finally {
         setLoading(false);

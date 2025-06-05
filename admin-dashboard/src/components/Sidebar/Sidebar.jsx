@@ -67,20 +67,20 @@ const Sidebar = ({ isCompact }) => {
         <div className={`h-14 ${compact ? 'px-2 justify-center' : 'px-4'} flex items-center border-b border-[#2A2B2E]`}>
           {compact ? (
             <div className="text-xl font-bold flex items-center justify-center transition-all duration-300">
-              <img 
+              {/* <img 
                 src={dynaquipLogo} 
                 alt="Dynaquip" 
                 className="h-10 w-10 object-contain transition-all duration-300"
-              />
-              {/* <h1 className="text-lg font-semibold white-space: nowrap">D</h1> */}
+              /> */}
+              <h1 className="text-lg font-semibold white-space: nowrap">D</h1>
             </div>
           ) : (
             <div className="text-xl font-bold flex items-center justify-center transition-all duration-300">
-              <img 
+              {/* <img 
                 src={dynaquipLogo} 
                 alt="Dynaquip" 
                 className="h-10 w-10 object-contain transition-all duration-300"
-              />
+              /> */}
               <h1 className="text-lg font-semibold white-space: nowrap transition-all duration-300">Dashboard</h1>
             </div>
           )}

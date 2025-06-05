@@ -16,9 +16,13 @@ export const totalPurchasedInventoryColumns = [
         >
           Material Grade
         </Button>
-      )
+      );
     },
-    cell: ({ row }) => <span className=" text-neutral-800 ml-4">{row.getValue("materialGrade")}</span>,
+    cell: ({ row }) => (
+      <span className=" text-neutral-800 ml-4">
+        {row.getValue("materialGrade")}
+      </span>
+    ),
   },
   {
     accessorKey: "materialQuantity",
@@ -31,9 +35,28 @@ export const totalPurchasedInventoryColumns = [
         >
           Quantity
         </Button>
-      )
+      );
     },
-    cell: ({ row }) => <span className='ml-4'>{row.getValue("materialQuantity")}</span>,
+    cell: ({ row }) => {
+      const quantity = row.getValue("materialQuantity");
+      const limit = row.getValue("limit");
+
+      let colorClass = "bg-green-100 text-green-700"; // Default: quantity > limit
+
+      if (quantity < limit) {
+        colorClass = "bg-red-100 text-red-700";
+      } else if (quantity === limit) {
+        colorClass = "bg-yellow-100 text-yellow-700";
+      }
+
+      return (
+        <div
+          className={`ml-4 px-3 py-1 rounded-full text-sm font-medium inline-block ${colorClass}`}
+        >
+          {quantity}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "limit",
@@ -46,9 +69,13 @@ export const totalPurchasedInventoryColumns = [
         >
           Limit
         </Button>
-      )
+      );
     },
-    cell: ({ row }) => <span className='ml-4'>{row.getValue("limit")}</span>,
+    cell: ({ row }) => (
+      <span className="ml-4 font-medium text-gray-900">
+        {row.getValue("limit")}
+      </span>
+    ),
   },
 ];
 
@@ -81,7 +108,26 @@ export const totalSuppliedInventoryColumns = [
         </Button>
       )
     },
-    cell: ({ row }) => <span className='ml-4'>{row.getValue("quantity")}</span>,
+    cell: ({ row }) => {
+      const quantity = row.getValue("quantity");
+      const limit = row.getValue("limit");
+
+      let colorClass = "bg-green-100 text-green-700"; 
+
+      if (quantity < limit) {
+        colorClass = "bg-red-100 text-red-700";
+      } else if (quantity === limit) {
+        colorClass = "bg-yellow-100 text-yellow-700";
+      }
+
+      return (
+        <div
+          className={`ml-4 px-3 py-1 rounded-full text-sm font-medium inline-block ${colorClass}`}
+        >
+          {quantity}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "limit",
@@ -96,7 +142,11 @@ export const totalSuppliedInventoryColumns = [
         </Button>
       )
     },
-    cell: ({ row }) => <span className='ml-4'>{row.getValue("limit")}</span>,
+    cell: ({ row }) => (
+      <span className="ml-4 font-medium text-gray-900">
+        {row.getValue("limit")}
+      </span>
+    ),
   },
 ];
 
@@ -129,7 +179,26 @@ export const totalConsumableInventoryColumns = [
         </Button>
       )
     },
-    cell: ({ row }) => <span className='ml-4'>{row.getValue("consumablesQuantity")}</span>,
+    cell: ({ row }) => {
+      const quantity = row.getValue("consumablesQuantity");
+      const limit = row.getValue("limit");
+
+      let colorClass = "bg-green-100 text-green-700"; 
+
+      if (quantity < limit) {
+        colorClass = "bg-red-100 text-red-700";
+      } else if (quantity === limit) {
+        colorClass = "bg-yellow-100 text-yellow-700";
+      }
+
+      return (
+        <div
+          className={`ml-4 px-3 py-1 rounded-full text-sm font-medium inline-block ${colorClass}`}
+        >
+          {quantity}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "limit",
@@ -144,7 +213,11 @@ export const totalConsumableInventoryColumns = [
         </Button>
       )
     },
-    cell: ({ row }) => <span className='ml-4'>{row.getValue("limit")}</span>,
+    cell: ({ row }) => (
+      <span className="ml-4 font-medium text-gray-900">
+        {row.getValue("limit")}
+      </span>
+    ),
   },
 ];
 

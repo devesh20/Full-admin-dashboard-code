@@ -13,11 +13,11 @@ const getStatusBadge = (completed, target) => {
     if (percentage >= 90) {
       return <Badge className="bg-green-500">Completed</Badge>;
     } else if (percentage <= 10 && percentage >= 1) {
-      return <Badge className="bg-red-500">Just Started</Badge>;
+      return <Badge className="bg-yellow-500">Just Started</Badge>;
     } else if(percentage <= 0){
       return <Badge className="bg-red-500">Pending</Badge>;
     }else {
-      return <Badge className="bg-yellow-500">In Progress</Badge>;
+      return <Badge className="bg-blue-400">In Progress</Badge>;
     }
 };
 
@@ -37,9 +37,11 @@ export const ProductionColumns = () => {
           {isMobile ? "PO" : "PO NO"}
         </button>
       ),
-      cell: ({ row }) => <span className="font-medium">{row.getValue("poNumber")}</span>,
+      cell: ({ row }) => (
+        <span className="font-medium text-gray-900">{row.getValue("poNumber")}</span>
+      ),
     }),
-    
+
     columnHelper.accessor("castingName", {
       header: ({ column }) => (
         <button
@@ -49,9 +51,11 @@ export const ProductionColumns = () => {
           {isMobile ? "Name" : "CASTING NAME"}
         </button>
       ),
-      cell: (info) => info.getValue(),
+      cell: ({ row }) => (
+        <span className="font-medium text-gray-900">{row.getValue("castingName")}</span>
+      ),
     }),
-    
+
     // Only show shift on tablet and desktop
     // ...(isMobile ? [] : [
     //   columnHelper.accessor("shiftOfProduction", {
@@ -63,56 +67,72 @@ export const ProductionColumns = () => {
     //     ),
     //   }),
     // ]),
-    
+
     // Only show startDateTime on tablet and desktop
-    ...(isMobile ? [] : [
-      columnHelper.accessor("dateOfOrder", {
-        header: () => (
-          <div className="flex items-center gap-1 font-semibold">
-            {isTablet ? "Date" : "Date of Order"}
-          </div>
-        ),
-        cell: (info) => {
-          const date = new Date(info.getValue());
-          const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-          return formattedDate;
-        },
-      }),
-    ]),
-    
+    ...(isMobile
+      ? []
+      : [
+          columnHelper.accessor("dateOfOrder", {
+            header: () => (
+              <div className="flex items-center gap-1 font-semibold">
+                {isTablet ? "Date" : "Date of Order"}
+              </div>
+            ),
+            cell: (info) => {
+              const date = new Date(info.getValue());
+              const formattedDate = `${String(date.getDate()).padStart(
+                2,
+                "0"
+              )}/${String(date.getMonth() + 1).padStart(
+                2,
+                "0"
+              )}/${date.getFullYear()}`;
+              return formattedDate;
+            },
+          }),
+        ]),
+
     columnHelper.accessor("quantityProduced", {
       header: "Progress",
       cell: ({ row }) => {
         const completed = row.getValue("quantityProduced");
         const target = row.original.originalQuantity;
-        
+        const progress = target > 0 ? (completed / target) * 100 : 0;
+
         return (
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500 whitespace-nowrap">
-              {completed}/{target}
-            </span>
+          <div className="flex flex-col gap-1 w-full min-w-[120px]">
+            <div className="flex justify-between text-xs text-gray-700 font-medium">
+              <span>{completed}</span>
+              <span className="text-gray-500">/ {target}</span>
+            </div>
+            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gray-900 transition-all duration-300"
+                style={{ width: `${Math.min(progress, 100)}%` }}
+              ></div>
+            </div>
           </div>
         );
       },
     }),
-    
+
     columnHelper.display({
       id: "status",
       header: "Status",
       cell: ({ row }) => {
         const completed = row.getValue("quantityProduced");
         const target = row.original.originalQuantity;
-        
+
         return getStatusBadge(completed, target);
       },
     }),
-    
+
     columnHelper.display({
       id: "actions",
       header: () => <div className="text-right mr-1">Actions</div>,
       cell: ({ row }) => {
         const item = row.original;
-    
+
         return (
           <div className="text-right">
             <DropdownMenu>
@@ -143,7 +163,9 @@ export const ProductionColumns = () => {
                     to={`/dashboard/production-details/${item.poNumber}`}
                     className="flex items-center text-black cursor-pointer no-underline"
                     rel="noopener noreferrer"
-                    onClick={() => console.log("Production Details Link item:", item)}
+                    onClick={() =>
+                      console.log("Production Details Link item:", item)
+                    }
                   >
                     <ChartLine className="mr-2 h-4 w-4" /> Details
                   </Link>
@@ -154,7 +176,6 @@ export const ProductionColumns = () => {
         );
       },
     }),
-    
   ];
 
   return columns;
@@ -165,68 +186,63 @@ export const productionSuppliedColumns = () => {
   const isTablet = useMediaQuery('(max-width: 1024px)');
 
   const columns = [
-    columnHelper.accessor("rotorType", {
-      header: ({ column }) => (
-        <button
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="flex items-center gap-1 p-0 font-semibold"
-        >
-          {isMobile ? "TYPE" : "ROTOR TYPE"}
-        </button>
-      ),
-      cell: ({ row }) => <span className="font-medium">{row.getValue("rotorType")}</span>,
-    }),
-
     columnHelper.accessor("annexureNumber", {
       header: ({ column }) => (
         <button
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="flex items-center gap-1 p-0 font-semibold"
+          className="flex items-center gap-1 p-0 font-semibold whitespace-nowrap"
         >
           {isMobile ? "A NO." : "ANNEXURE NO."}
         </button>
       ),
-      cell: (info) => info.getValue(),
+      cell: ({ row }) => (
+        <span className="font-medium text-gray-900 whitespace-nowrap">{row.getValue("annexureNumber")}</span>
+      ),
+    }),
+    columnHelper.accessor("rotorType", {
+      header: ({ column }) => (
+        <button
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="flex items-center gap-1 p-0 font-semibold whitespace-nowrap"
+        >
+          {isMobile ? "TYPE" : "ROTOR TYPE"}
+        </button>
+      ),
+      cell: ({ row }) => <span className="font-medium text-gray-900 whitespace-nowrap">{row.getValue("rotorType")}</span>,
     }),
 
-    ...(isMobile ? [] : [
-      columnHelper.accessor("dateOfOrder", {
-        header: () => (
-          <div className="flex items-center gap-1 font-semibold">
-            {isTablet ? "Ordered" : "Date of Order"}
-          </div>
-        ),
-        cell: (info) => {
-          const date = new Date(info.getValue());
-          const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-          return formattedDate;
-        },
-      }),
-      columnHelper.accessor("dateOfCompletion", {
-        header: () => (
-          <div className="flex items-center gap-1 font-semibold">
-            {isTablet ? "Completed" : "Date of Completion"}
-          </div>
-        ),
-        cell: (info) => {
-          const date = new Date(info.getValue());
-          const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-          return formattedDate;
-        },
-      }),
-    ]),
+    columnHelper.accessor("dateOfOrder", {
+      header: () => (
+        <div className="flex items-center gap-1 font-semibold whitespace-nowrap">
+          {isTablet ? "Ordered" : "Date of Order"}
+        </div>
+      ),
+      cell: (info) => {
+        const date = new Date(info.getValue());
+        const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+        return <span className="whitespace-nowrap">{formattedDate}</span>;
+      },
+    }),
 
     columnHelper.accessor("quantityProduced", {
       header: "Progress",
       cell: ({ row }) => {
         const completed = row.getValue("quantityProduced");
         const target = row.original.originalQuantity;
+        const progress = target > 0 ? (completed / target) * 100 : 0;
 
         return (
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500 whitespace-nowrap">
-              {completed}/{target}
-            </span>
+          <div className="flex flex-col gap-1 w-full">
+            <div className="flex justify-between text-xs text-gray-700 font-medium">
+              <span>{completed}</span>
+              <span className="text-gray-500">/ {target}</span>
+            </div>
+            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gray-900 transition-all duration-300"
+                style={{ width: `${Math.min(progress, 100)}%` }}
+              ></div>
+            </div>
           </div>
         );
       },
@@ -238,7 +254,7 @@ export const productionSuppliedColumns = () => {
       cell: ({ row }) => {
         const completed = row.getValue("quantityProduced");
         const target = row.original.originalQuantity;
-        return getStatusBadge(completed, target); // You already use this in ProductionColumns
+        return getStatusBadge(completed, target);
       },
     }),
 
@@ -247,7 +263,6 @@ export const productionSuppliedColumns = () => {
       header: () => <div className="text-right mr-1">Actions</div>,
       cell: ({ row }) => {
         const item = row.original;
-
         return (
           <div className="text-right">
             <DropdownMenu>
@@ -259,7 +274,7 @@ export const productionSuppliedColumns = () => {
               <DropdownMenuContent align="end" className="bg-white">
                 <DropdownMenuItem asChild>
                   <Link
-                    to={`/dashboard/production-details/${item.annexureNumber}`}
+                    to={`/dashboard/production/${item.annexureNumber}`}
                     className="flex items-center text-black cursor-pointer no-underline"
                   >
                     <ChartLine className="mr-2 h-4 w-4" /> Details
