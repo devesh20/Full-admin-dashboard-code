@@ -9,7 +9,7 @@ import InventoryModal from "./components/ManageInventory/InventoryModal";
 import MaterialIssuedModal from "./components/ManageInventory/MaterialIssuedModal";
 import ProductionProgress from "./components/ProductionProgress/ProductionProgress";
 import ProductionDetails from "./components/ProductionProgress/ProductionDetails";
-import DieCasting from "./components/DieCasting/DieCasting";
+import DieCasting from "./components/Diecasting/MaterialIssued";
 import WorkersInfo from "./components/workersInfo/workers";
 import WorkersModal from "./components/workersInfo/workersmodal";
 import axios from "axios";

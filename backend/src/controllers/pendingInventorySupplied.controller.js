@@ -87,7 +87,7 @@ const confirmPendingInventorySupplied = asyncHandler(async (req, res) => {
     await SuppliedInventory.create({
       rotorType: pendingEntry.typeOfRotor,
       quantity: pendingEntry.materialQuantity,
-      limit: 0, // Set a default limit or adjust as needed
+      limit: 20, // Set a default limit or adjust as needed
     });
   }
 

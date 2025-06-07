@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGri
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 // Fallback data
 const fallbackData = {
@@ -97,7 +98,14 @@ const ProductionRotorDetails = () => {
             h1, h2, h3 { color: #333; }
             .card { border: 1px solid #ccc; padding: 16px; border-radius: 8px; margin-bottom: 20px; }
             .chart { margin-top: 30px; }
-            @media print { button { display: none; } }
+            table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f5f5f5; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            @media print { 
+              button { display: none; }
+              table { page-break-inside: avoid; }
+            }
           </style>
         </head>
         <body>
@@ -146,16 +154,35 @@ const ProductionRotorDetails = () => {
               <CardTitle className="text-lg">Rotor Order Details</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted-foreground">
-                <div><span className="font-medium text-black">Annexure Number:</span> {orderDetails.annexureNumber}</div>
-                <div><span className="font-medium text-black">Rotor Type:</span> {orderDetails.rotorType}</div>
-                <div><span className="font-medium text-black">Quantity Ordered:</span> {orderDetails.quantity}</div>
-                <div><span className="font-medium text-black">Original Quantity:</span> {orderDetails.originalQuantity}</div>
-                <div><span className="font-medium text-black">Quantity Produced:</span> {orderDetails.quantityProduced}</div>
-                <div><span className="font-medium text-black">Date of Order:</span> {orderDetails.dateOfOrder}</div>
-                <div><span className="font-medium text-black">Date of Completion:</span> {orderDetails.dateOfCompletion}</div>
-                {/* <div><span className="font-medium text-black">Is Complete:</span> {orderDetails.isComplete}</div> */}
-              </div>
+              <Table className="border border-gray-200 w-1/2">    
+                <TableBody>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200 w-1/2">Annexure Number</TableCell>
+                    <TableCell className="w-1/2">{orderDetails.annexureNumber}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200 w-1/2">Rotor Type</TableCell>
+                    <TableCell className="w-1/2">{orderDetails.rotorType}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200 w-1/2">Quantity Ordered</TableCell>
+                    <TableCell className="w-1/2">{orderDetails.quantity}</TableCell>
+                  </TableRow>
+                  
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200 w-1/2">Quantity Produced</TableCell>
+                    <TableCell className="w-1/2">{orderDetails.quantityProduced}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200 w-1/2">Date of Order</TableCell>
+                    <TableCell className="w-1/2">{orderDetails.dateOfOrder}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200 w-1/2">Date of Completion</TableCell>
+                    <TableCell className="w-1/2">{orderDetails.dateOfCompletion}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
 
               {rejectionGraph.length > 0 && (
                 <div>
@@ -173,7 +200,7 @@ const ProductionRotorDetails = () => {
 
               <Separator />
 
-              <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2">
+              {/* <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2">
                 <div>
                   <h3 className="font-semibold text-base mb-2">Production Quantity</h3>
                   {productionGraph.length === 0 ? (
@@ -186,7 +213,7 @@ const ProductionRotorDetails = () => {
                           <XAxis dataKey="date" />
                           <YAxis />
                           <Tooltip />
-                          <Bar dataKey="totalQuantity" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                          <Bar dataKey="totalQuantity" name="Quantity Produced" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -242,7 +269,7 @@ const ProductionRotorDetails = () => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
         </div>

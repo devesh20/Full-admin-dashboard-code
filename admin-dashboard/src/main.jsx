@@ -16,7 +16,7 @@ import WorkersModal from './components/Workers-Details/WorkersModal.jsx'
 import MaterialReceivedModal from './components/Manage-Inventory/Modals/MaterialReceivedModal.jsx'
 import MaterialIssuedModal from './components/Manage-Inventory/Modals/MaterialissuedModal.jsx'
 import PendingInventoryModal from './components/Manage-Inventory/Modals/PendingInventoryModal'
-import DieCasting from './components/Diecasting/DieCasting.jsx'
+import DieCasting from './components/Diecasting/MaterialIssued.jsx'
 import WeeklyReport from './components/Reports/WeeklyReport.jsx';
 // import {router} from './router.js';
 
@@ -33,6 +33,7 @@ import Profile from './components/Profile/Profile';
 import ProductionDetails from './components/ProductionProgress/ProductionDetails';
 import TotalInventory from './components/TotalInventory/TotalInventory';
 import ProductionRotorDetails from './components/ProductionProgress/ProductionRotorDetails';
+import MaterialIssued from './components/Diecasting/MaterialIssued.jsx';
 
 
 const router = createBrowserRouter([
@@ -195,6 +196,10 @@ const router = createBrowserRouter([
             element: <DieCastingModal/>
           }
         ]
+      },
+      {
+        path: "material-issued",
+        element: <MaterialIssued/>,
       },
       {
         path: "workers",

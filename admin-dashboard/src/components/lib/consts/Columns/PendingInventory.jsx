@@ -239,7 +239,7 @@ export const pendingSuppliedInventoryColumns = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="flex  gap-2"
         >
-          Type of Rotor
+          Rotor Type
         </Button>
       );
     },

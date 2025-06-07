@@ -42,12 +42,30 @@ export const partDetails = {
     'PYRO M20 x 3/4 x 3/4': 'PYRO 1/2" NPT',
 };
 
-export const rotorDetails = {
-    "Rotor 1": "1",
-    "Rotor 2": "2",
-    "Rotor 3": "3",
-    "Rotor 4": "4",
-  }
+export const rotorDetails = [
+  "ND 80-4P-68 CL",
+  "ND 80-4P-78 CL",
+  "ND 90-4P-108 CL (STANDARD)",
+  "ND 90-4P-108 CL (FLANGE)",
+  "ND 90-4P-83 CL (STANDARD)",
+  "ND 90-4P-83 CL (FLANGE)",
+  "ND 90-6P-73 CL (STANDARD)",
+  "ND 90-6P-73 CL (FLANGE)",
+  "ND 90-6P-98 CL (STANDARD)",
+  "ND 90-6P-98 CL (FLANGE)",
+  "ND 100-4P-118 CL",
+  "ND 100-6P-118 CL",
+  "ND 112-4P-118 CL",
+  "ND 112-6P-98 CL",
+  "ND 112-6P-118 CL",
+  "BC132-2P-90 CL",
+  "BC132-2P-115 CL",
+  "BC112-4P-130 CL",
+  "BC90-4P-70 CL",
+  "BC90-4P-110 CL",
+  "BC80-4P-70",
+];
+
 
 export const materialGrades = [
     "ADC12",

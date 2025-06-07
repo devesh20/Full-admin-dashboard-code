@@ -161,7 +161,7 @@ export const materialIssuedSuppliedColumns = [
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         className="flex items-center gap-2"
       >
-        Type of Rotor
+        Rotor Type
       </Button>
     ),
     cell: ({ row }) => (

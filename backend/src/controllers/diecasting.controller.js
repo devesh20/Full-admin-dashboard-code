@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Diecasting } from "../models/diecasting.model.js";
+import { CastingUtilized } from "../models/castingUtilized.model.js";
 import mongoose from "mongoose";
 
 // GET all diecastings

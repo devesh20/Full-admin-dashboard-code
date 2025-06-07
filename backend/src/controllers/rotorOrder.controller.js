@@ -133,31 +133,85 @@ const createRotorOrder = asyncHandler(async (req, res) => {
 
 
 // REFRESH ROTOR ORDER STATUS
-const refreshRotorOrderStatus = asyncHandler(async (req, res) => {
-  const pendingOrders = await RotorOrder.find({ isComplete: false }).sort({ dateOfOrder: 1 });
+// const refreshRotorOrderStatus = asyncHandler(async (req, res) => {
+//   const pendingOrders = await RotorOrder.find({ isComplete: false }).sort({ dateOfOrder: 1 });
 
-  let totalSeconds = 0;
-  const now = new Date();
+//   let totalSeconds = 0;
+//   const now = new Date();
+
+//   for (const order of pendingOrders) {
+//     const originalQty = order.originalQuantity || order.quantity;
+//     const remainingQty = originalQty - order.quantityProduced;
+//     const cycleTime = rotorCycleTimes[order.rotorType] || 60;
+
+//     if (remainingQty <= 0) continue;
+
+//     totalSeconds += remainingQty * cycleTime;
+//     const expectedDate = new Date(now.getTime() + totalSeconds * 1000);
+
+//     await RotorOrder.findByIdAndUpdate(order._id, {
+//       dateOfCompletion: expectedDate
+//     });
+//   }
+
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, null, "Rotor order statuses refreshed"));
+// });
+
+// Recalculates remaining quantity and expected completion dates
+const refreshRotorOrderStatus = asyncHandler(async (req, res) => {
+  // oldest first ⇒ earlier orders keep their place in the “virtual queue”
+  const pendingOrders = await RotorOrder.find({ isComplete: false })
+                                        .sort({ dateOfOrder: 1 });
+
+  let queueSeconds = 0;               // cumulative seconds for the virtual queue
+  const now = new Date();             // “refresh” time-stamp
 
   for (const order of pendingOrders) {
-    const originalQty = order.originalQuantity || order.quantity;
-    const remainingQty = originalQty - order.quantityProduced;
-    const cycleTime = rotorCycleTimes[order.rotorType] || 60;
+    // ensure we always have originalQuantity to reference later
+    const originalQty = order.originalQuantity ?? order.quantity;
+    const producedQty = order.quantityProduced ?? 0;
 
-    if (remainingQty <= 0) continue;
+    const remainingQty = Math.max(originalQty - producedQty, 0);
+    const cycleTime    = rotorCycleTimes[order.rotorType] || 60;  // default 60 s
 
-    totalSeconds += remainingQty * cycleTime;
-    const expectedDate = new Date(now.getTime() + totalSeconds * 1000);
+    // Add this order’s work to the virtual queue only if there’s work left
+    if (remainingQty > 0) {
+      queueSeconds += remainingQty * cycleTime;
+    }
 
-    await RotorOrder.findByIdAndUpdate(order._id, {
-      dateOfCompletion: expectedDate
-    });
+    // The expected completion is “now + queueSeconds” (or now if already done)
+    const expectedCompletion = remainingQty > 0
+      ? new Date(now.getTime() + queueSeconds * 1000)
+      : now;
+
+    await RotorOrder.findByIdAndUpdate(
+      order._id,
+      {
+        // set originalQuantity once if it was never captured
+        ...(order.originalQuantity == null && { originalQuantity: originalQty }),
+
+        quantity: remainingQty,            // remaining to-do
+        dateOfCompletion: expectedCompletion,
+        isComplete: remainingQty === 0
+      },
+      { new: false }                       // don’t need the updated doc back
+    );
   }
 
-  return res
+  res
     .status(200)
-    .json(new ApiResponse(200, null, "Rotor order statuses refreshed"));
+    .json(
+      new ApiResponse(
+        200,
+        null,
+        "Rotor order statuses refreshed successfully."
+      )
+    );
 });
+
+
 
 // GET ALL ROTOR ORDERS
 const getAllRotorOrders = asyncHandler(async (req, res) => {

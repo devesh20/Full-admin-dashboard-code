@@ -10,7 +10,7 @@ const inventorySchema  = new Schema({
     },
     limit:{
         type:Number,
-        default:10
+        default:20
     }
 },{timestamps:true})
 

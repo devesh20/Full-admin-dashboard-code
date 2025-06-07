@@ -182,10 +182,7 @@ function CastingReport() {
       setLoadingMaterial(false); 
     }
   };
-  
-  
-  
-
+    
   
   const calculatePercentage = (rejected, produced) => {
     const rejectedNum = Number(rejected) || 0;

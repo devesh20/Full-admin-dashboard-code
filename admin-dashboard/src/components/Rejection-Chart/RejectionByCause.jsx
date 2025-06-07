@@ -80,7 +80,7 @@ function RejectionByCause() {
       groupedByCause[cause].value += Number(item.totalQuantityRejected) || 0;
     });
     
-    const formattedData = Object.values(groupedByCause);
+    const formattedData = Object.values(groupedByCause).filter(item => item.value > 0);
 		console.log("Formatted chart data:", formattedData);
 		setChartData(formattedData);
 	} catch (error) {

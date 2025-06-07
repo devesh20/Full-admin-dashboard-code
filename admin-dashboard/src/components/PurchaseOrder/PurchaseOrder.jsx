@@ -223,7 +223,7 @@ export default function PurchaseOrder() {
           )
         },
         cell: ({ getValue }) => (
-        <span className="font-medium text-sm text-blue-900 uppercase flex items-center gap-1">
+        <span className="font-medium text-sm text-gray-800 uppercase flex items-center gap-1">
           {getValue()}
         </span>
         )
@@ -266,7 +266,7 @@ export default function PurchaseOrder() {
             <button
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-              Exp. Completion Date
+              Exp. Completion
             </button>
           )
         },
@@ -301,7 +301,7 @@ export default function PurchaseOrder() {
       //   cell: info => info.getValue(),
       // }),
       columnHelper.accessor('quantityProduced', {
-        header: 'Quantity Produced',
+        header: 'Qty. Produced',
         cell: ({ row }) => {
           const { quantityProduced, originalQuantity } = row.original
           const pct = quantityProduced / originalQuantity
@@ -327,7 +327,7 @@ export default function PurchaseOrder() {
               }
               className="flex items-center gap-1"
             >
-              Target Quantity
+              Target Qty.
             </button>
           );
         },
@@ -395,7 +395,7 @@ export default function PurchaseOrder() {
           )
         },
         cell: ({ getValue }) => (
-        <span className="font-medium text-sm text-blue-900 uppercase flex items-center gap-1">
+        <span className="font-medium text-sm text-gray-800 uppercase flex items-center gap-1">
           {getValue()}
         </span>
         )
@@ -448,7 +448,7 @@ export default function PurchaseOrder() {
             <button
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-              Exp. Completion Date
+              Exp. Completion
             </button>
           )
         },
@@ -473,7 +473,7 @@ export default function PurchaseOrder() {
         }
       }),
       columnHelper.accessor('quantityProduced', {
-        header: 'Quantity Produced',
+        header: 'Qty. Produced',
         cell: ({ row }) => {
           const { quantityProduced, originalQuantity } = row.original
           const pct = quantityProduced / originalQuantity
@@ -499,7 +499,7 @@ export default function PurchaseOrder() {
             }
             className="flex items-center gap-1"
           >
-            Target Quantity
+            Target Qty.
           </button>
         );
       },
@@ -597,7 +597,7 @@ export default function PurchaseOrder() {
                     <SelectValue placeholder="Select Rotor Type" />
                   </SelectTrigger>
                   <SelectContent className="dark:bg-gray-800 dark:border-gray-700 bg-white">
-                    {Object.keys(rotorDetails).map((type) => (
+                    {rotorDetails.map((type) => (
                       <SelectItem key={type} value={type}>
                         {type}
                       </SelectItem>

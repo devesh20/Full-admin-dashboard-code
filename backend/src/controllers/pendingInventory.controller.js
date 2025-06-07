@@ -89,7 +89,7 @@ const updatePendingInventory = asyncHandler(async (req, res) => {
       await Inventory.create({
         materialGrade: pendingEntry.materialGrade,
         materialQuantity: pendingEntry.materialQuantity,
-        limit: 0, // Or set a default or from config
+        limit: 20, // Or set a default or from config
       });
     }
   

@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Diecasting } from "../models/diecasting.model.js";
 import { CastingUtilized } from "../models/castingUtilized.model.js";
+import { RotorUtilized } from "../models/rotorUtilized.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Order } from "../models/order.model.js";
 import { MaterialRecieved } from "../models/materialRecieved.model.js";
@@ -35,7 +36,7 @@ const generateCastingReport = asyncHandler(async (req, res) => {
         totalQuantityProduced: { $sum: { $toDouble: "$quantityProduced" } },
         totalQuantityRejected: { $sum: { $toDouble: "$quantityRejected" } },
       }
-    }
+    },
   ]);
 
   // console.log("dates: ", req.body )
@@ -89,23 +90,30 @@ const getOrderProductionGraph = asyncHandler(async (req, res) => {
     return res.status(400).json(new ApiResponse(400, null, "PO number is required"));
   }
 
-  const order = await Order.findOne({ poNumber }).lean(); // .lean() returns plain JS object
+  const poNum = Number(poNumber);           // 6062025 (drops any leading zeros)
+  if (Number.isNaN(poNum)) {
+    return res.status(400).json(new ApiResponse(400, null, "Invalid PO number"));
+  }
+
+  const order = await Order.findOne({ $or: [{poNumber}, {poNumber: poNum}] }).lean(); // .lean() returns plain JS object
   if (!order) {
     return res.status(404).json(new ApiResponse(404, null, "Order not found"));
   }
 
+   const matchStage = { $match: { poNumber: poNum } };
   //  Production Graph: grouped by date
   const productionGraph = await CastingUtilized.aggregate([
-    {
-      $match: {
-        $expr: {
-          $eq: [
-            { $toString: "$poNumber" },
-            poNumber.toString()
-          ]
-        }
-      }
-    },
+    matchStage,
+    // {
+    //   $match: {
+    //     $expr: {
+    //       $eq: [
+    //         { $toString: "$poNumber" },
+    //         poNumber.toString()
+    //       ]
+    //     }
+    //   }
+    // },
     {
       $group: {
         _id: {
@@ -132,20 +140,12 @@ const getOrderProductionGraph = asyncHandler(async (req, res) => {
 
   //  Rejection Graph: grouped by cause
   const rejectionGraph = await CastingUtilized.aggregate([
-  {
-    $match: {
-      $expr: {
-        $eq: [
-          { $toString: "$poNumber" },  // Convert DB field to string
-          poNumber.toString()          // Convert input param to string
-        ]
-      }
-    }
-  },
+  matchStage,
+  { $match: { quantityRejected: { $gt: 0 } } },
   {
     $group: {
       _id: "$rejectionCause",
-      count: { $sum: { $ifNull: ["$quantityRejected", 0] } }
+      count: { $sum: "$quantityRejected"}
     }
   },
   {
@@ -310,7 +310,7 @@ const getRotorOrderProductionGraph = asyncHandler(async (req, res) => {
   }
 
   // Production Graph: grouped by date
-  const productionGraph = await CastingUtilized.aggregate([
+  const productionGraph = await RotorUtilized.aggregate([
     {
       $match: {
         $expr: {

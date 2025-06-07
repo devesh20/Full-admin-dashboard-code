@@ -1,6 +1,8 @@
 import React from 'react'
 import { MdDescription, MdOutlineInventory, MdTimeline } from "react-icons/md";
 import { HiOutlineChartBar } from "react-icons/hi";
+import { FileBox } from 'lucide-react';
+import { MdOutbox } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 
 function DashboardNavGrid() {
@@ -47,15 +49,15 @@ function DashboardNavGrid() {
             </BoxWrapper>
         </button>
         <button 
-        onClick={() => {navigate('/dashboard/diecasting')}}
+        onClick={() => {navigate('/dashboard/material-issued')}}
         className="w-full"
         >
            <BoxWrapper>
                 <div className='rounded-full h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center bg-green-600 shrink-0'>
-                    <MdTimeline className='text-xl sm:text-2xl text-white'></MdTimeline>
+                    <MdOutbox className='text-xl sm:text-2xl text-white'></MdOutbox>
                 </div>
                 <div className='px-2 sm:px-3'>
-                    <strong className='text-sm sm:text-md text-neutral-700 font-semibold'>Monitor Casting</strong>
+                    <strong className='text-sm sm:text-md text-neutral-700 font-semibold'>Material Issued</strong>
                 </div>
             </BoxWrapper>
         </button>    

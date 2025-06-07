@@ -7,10 +7,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const getConsumablesInventoryData = asyncHandler(async (req, res) => {
   const data = await ConsumablesInventory.find();
 
+  console.log(data)
   if (!data || data.length === 0) {
     throw new ApiError(404, "No consumables inventory data found");
   }
-
+  
   return res.status(200).json(
     new ApiResponse(200, data, "All Consumables Inventory Data")
   );

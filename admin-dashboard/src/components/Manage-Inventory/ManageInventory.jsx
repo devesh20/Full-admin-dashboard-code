@@ -123,10 +123,9 @@ function ManageInventory() {
           onValueChange={handleTabChange}
           className="w-full space-y-4"
         >
-          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 mb-20 sm:mb-4 gap-2 p-1">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 mb-10 sm:mb-4 gap-2 p-1">
             <TabsTrigger className="cursor-pointer text-xs sm:text-sm md:text-base px-2 py-1.5" value="0">Pending Inventory</TabsTrigger>
             <TabsTrigger className="cursor-pointer text-xs sm:text-sm md:text-base px-2 py-1.5" value="1">Material Received</TabsTrigger>
-            <TabsTrigger className="cursor-pointer text-xs sm:text-sm md:text-base px-2 py-1.5" value="2">Material Issued</TabsTrigger>
           </TabsList>
           
           <TabsContent value="0">
@@ -203,44 +202,6 @@ function ManageInventory() {
               </TabsContent>
             </Tabs>
           </TabsContent>
-          
-          <TabsContent value="2">
-            <Tabs defaultValue="purchased" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-4 gap-2 p-1">
-                <TabsTrigger className="cursor-pointer text-xs sm:text-sm md:text-base px-2 py-1" value="purchased">Purchased</TabsTrigger>
-                <TabsTrigger className="cursor-pointer text-xs sm:text-sm md:text-base px-2 py-1" value="supplied">Supplied</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="purchased" className="mx-1">
-                <DataTable
-                  data={purchasedIssuedData}
-                  columns={getColumns("2", "purchased")}
-                  sorting={sorting}
-                  setSorting={setSorting}
-                  globalFilter={globalFilter}
-                  setGlobalFilter={setGlobalFilter}
-                  showSearch={true}
-                  pageSize={10}
-                  isLoading={isLoading}
-                />
-              </TabsContent>
-
-              <TabsContent value="supplied" className="mx-1">
-                <DataTable
-                  data={suppliedIssuedData}
-                  columns={getColumns("2", "supplied")}
-                  sorting={sorting}
-                  setSorting={setSorting}
-                  globalFilter={globalFilter}
-                  setGlobalFilter={setGlobalFilter}
-                  showSearch={true}
-                  pageSize={10}
-                  isLoading={isLoading}
-                />
-              </TabsContent>
-            </Tabs>
-          </TabsContent>
-          
         </Tabs>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { LabelList } from "recharts";
+import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from "@/components/ui/table";
 
 // Fallback data
 const fallbackData = {
@@ -103,8 +104,13 @@ const ProductionDetails = () => {
             h1, h2, h3 { color: #333; }
             .card { border: 1px solid #ccc; padding: 16px; border-radius: 8px; margin-bottom: 20px; }
             .chart { margin-top: 30px; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f5f5f5; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
             @media print {
               button { display: none; }
+              table { page-break-inside: avoid; }
             }
           </style>
         </head>
@@ -173,32 +179,34 @@ const ProductionDetails = () => {
                   </Button>
                 </div>
               )}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted-foreground">
-                <div>
-                  <span className="font-medium text-black">PO Number:</span>{" "}
-                  {orderDetails.poNumber}
-                </div>
-                <div>
-                  <span className="font-medium text-black">Part Number:</span>{" "}
-                  {orderDetails.partNumber}
-                </div>
-                <div>
-                  <span className="font-medium text-black">
-                    Target Quantity:
-                  </span>{" "}
-                  {orderDetails.originalQuantity}
-                </div>
-                <div>
-                  <span className="font-medium text-black">Casting Name:</span>{" "}
-                  {orderDetails.castingName}
-                </div>
-                <div>
-                  <span className="font-medium text-black">
-                    Quantity Produced:
-                  </span>{" "}
-                  {orderDetails.quantityProduced}
-                </div>
-              </div>
+              <Table className="border border-gray-200 w-1/2">    
+                <TableBody>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200">PO Number</TableCell>
+                    <TableCell>{orderDetails.poNumber}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200">Part Number</TableCell>
+                    <TableCell>{orderDetails.partNumber}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200">Target Quantity</TableCell>
+                    <TableCell>{orderDetails.originalQuantity}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200">Casting Name</TableCell>
+                    <TableCell>{orderDetails.castingName}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200">Quantity Produced</TableCell>
+                    <TableCell>{orderDetails.quantityProduced}</TableCell>
+                  </TableRow>
+                  <TableRow className="border-b border-gray-200 hover:bg-gray-50">
+                    <TableCell className="font-medium text-black border-r border-gray-200">Total Rejections</TableCell>
+                    <TableCell>{data.totalRejections}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted-foreground">
                 <div>
@@ -217,12 +225,6 @@ const ProductionDetails = () => {
                       </ul>
                     </div>
                   )}
-                </div>
-                <div>
-                  <span className="font-semibold text-black">
-                    Total Rejections:
-                  </span>{" "}
-                  {data.totalRejections}
                 </div>
               </div>
 
@@ -258,6 +260,7 @@ const ProductionDetails = () => {
                           <Line
                             type="monotone"
                             dataKey="totalQuantity"
+                            name="Quantity Produced"
                             stroke="#3b82f6" // Blue color consistent with your theme
                             activeDot={{ r: 8 }}
                           />
