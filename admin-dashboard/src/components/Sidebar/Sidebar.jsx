@@ -72,7 +72,7 @@ const Sidebar = ({ isCompact }) => {
                 alt="Dynaquip" 
                 className="h-10 w-10 object-contain transition-all duration-300"
               /> */}
-              <h1 className="text-lg font-semibold white-space: nowrap">D</h1>
+              <h1 className="text-lg font-semibold white-space: nowrap"></h1>
             </div>
           ) : (
             <div className="text-xl font-bold flex items-center justify-center transition-all duration-300">
