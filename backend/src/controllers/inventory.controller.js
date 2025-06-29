@@ -15,6 +15,28 @@ const getInventoryData = asyncHandler( async (req,res)=>{
     )
 })
 
+const updateInventoryLimit = asyncHandler(async (req, res) => {
+    const { materialGrade, limit } = req.body;
+    
+    if (!materialGrade || !limit) {
+        throw new ApiError(400, "Material grade and limit are required");
+    }
+
+    const inventory = await Inventory.findOne({ materialGrade });
+    
+    if (!inventory) {
+        throw new ApiError(404, "Inventory item not found for this material grade");
+    }
+
+    inventory.limit = limit;
+    await inventory.save();
+
+    return res.status(200).json(
+        new ApiResponse(200, inventory, "Inventory limit updated successfully")
+    );
+});
+
 export {
-    getInventoryData
+    getInventoryData,
+    updateInventoryLimit
 }

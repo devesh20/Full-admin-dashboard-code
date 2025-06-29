@@ -1,5 +1,6 @@
 import React from 'react'
 import { MdDescription, MdOutlineInventory, MdTimeline } from "react-icons/md";
+import { RiOilLine } from "react-icons/ri";
 import { HiOutlineChartBar } from "react-icons/hi";
 import { FileBox } from 'lucide-react';
 import { MdOutbox } from "react-icons/md";
@@ -36,15 +37,15 @@ function DashboardNavGrid() {
             </BoxWrapper>
         </button>    
         <button 
-        onClick={() => {navigate('/dashboard/casting-specification')}}
+        onClick={() => {navigate('/dashboard/consumables')}}
         className="w-full"
         >
             <BoxWrapper>
                 <div className='rounded-full h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center bg-yellow-400 shrink-0'>
-                    <MdDescription className='text-xl sm:text-2xl text-white'></MdDescription>
+                    <RiOilLine className='text-xl sm:text-2xl text-white'></RiOilLine>
                 </div>
                 <div className='px-2 sm:px-3'>
-                    <strong className='text-sm sm:text-md text-gray-700 font-semibold'>Casting Specification</strong>
+                    <strong className='text-sm sm:text-md text-gray-700 font-semibold'>Consumables Inventory</strong>
                 </div>
             </BoxWrapper>
         </button>

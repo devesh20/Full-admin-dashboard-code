@@ -27,13 +27,13 @@ import AuthLayout from './components/shared/auth-layout.jsx';
 import ProtectedRoute from './components/Login-Register/ProtectedRoute.jsx';
 import { AuthProvider } from './components/Login-Register/AuthContext.jsx';
 import DieCastingModal from './components/Diecasting/Modal/DieCastingModal.jsx';
-import CastingSpecification from './components/CastingSpecification/CastingSpecification.jsx';
 import PurchaseOrder from './components/PurchaseOrder/PurchaseOrder';
 import Profile from './components/Profile/Profile';
 import ProductionDetails from './components/ProductionProgress/ProductionDetails';
 import TotalInventory from './components/TotalInventory/TotalInventory';
 import ProductionRotorDetails from './components/ProductionProgress/ProductionRotorDetails';
 import MaterialIssued from './components/Diecasting/MaterialIssued.jsx';
+import ChangeLimit from './components/CastingSpecification/ChangeLimit.jsx';
 
 
 const router = createBrowserRouter([
@@ -168,8 +168,8 @@ const router = createBrowserRouter([
         element: <ProductionRotorDetails/>,
       },
       {
-        path: "casting-specification",
-        element: <CastingSpecification />,
+        path: "consumables",
+        element: <ChangeLimit />,
         // loader:
         // children:
       },

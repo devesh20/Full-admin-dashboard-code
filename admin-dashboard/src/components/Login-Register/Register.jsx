@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,9 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -179,9 +183,9 @@ const Register = () => {
                   name="isOwner"
                   checked={formData.isOwner}
                   onChange={handleChange}
-                  className="h-3 w-3"
+                  className="h-3 w-3 cursor-pointer"
                 />
-                <Label htmlFor="isOwner" className="mb-0 text-xs">Are you an Owner?</Label>
+                <Label htmlFor="isOwner" className="mb-0 text-xs cursor-pointer">Are you an Owner?</Label>
               </div>
               <Button 
                 type="submit" 

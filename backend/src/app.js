@@ -70,7 +70,7 @@ app.use("/api/consumables-inventory", consumablesInventoryRouter);
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend domain
+    origin: "http://192.168.0.104:5173", // your frontend domain
     credentials: true, // allow sending cookies
   })
 );
