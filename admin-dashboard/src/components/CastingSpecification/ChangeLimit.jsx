@@ -19,13 +19,17 @@ function ChangeLimit() {
   const [newLimit, setNewLimit] = useState("");
   const [isUpdatingLimit, setIsUpdatingLimit] = useState(false);
   const [limitUpdateMessage, setLimitUpdateMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
       try {
+        setIsLoading(true);
         const res = await axios.get("/api/consumables-inventory/get-all");
           setConsumablesData(res.data.data || []);
       } catch (error) {
         console.error(`Failed to fetch inventory data:`, error);
+      } finally {
+        setIsLoading(false);
       }
   }
 
@@ -148,6 +152,7 @@ function ChangeLimit() {
               setGlobalFilter={setGlobalFilter}
               showSearch={true}
               pageSize={10}
+              isLoading={isLoading}
       />
     </div>
   )

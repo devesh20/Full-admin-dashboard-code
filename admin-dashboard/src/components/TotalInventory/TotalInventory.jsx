@@ -27,9 +27,11 @@ function TotalInventory() {
     const [newLimit, setNewLimit] = useState("");
     const [isUpdatingLimit, setIsUpdatingLimit] = useState(false);
     const [limitUpdateMessage, setLimitUpdateMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         if (activeTab === "purchased") {
           const res = await axios.get("/api/inventory/get-all");
           setPurchasedData(res.data.data || []);
@@ -42,6 +44,8 @@ function TotalInventory() {
         }
       } catch (error) {
         console.error(`Failed to fetch ${activeTab} inventory data:`, error);
+      } finally {
+        setIsLoading(false);
       }
     };
     
@@ -225,6 +229,7 @@ function TotalInventory() {
               setGlobalFilter={setGlobalFilter}
               showSearch={true}
               pageSize={10}
+              isLoading={isLoading}
             />
           </TabsContent>
         </Tabs>
