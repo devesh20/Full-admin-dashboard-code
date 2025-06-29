@@ -10,6 +10,7 @@ import {
 	HiOutlineCog,
 	
 } from 'react-icons/hi'
+import { FiPackage } from "react-icons/fi";
 import { HiOutlineCalendar } from 'react-icons/hi2'
 import { RiOilLine } from "react-icons/ri";
 
@@ -24,7 +25,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		key: 'inventory',
 		label: 'Inventory',
 		path: '/dashboard/total-inventory',
-		icon: <Package/>
+		icon: <FiPackage/>
 	},
 	{
 		key: 'orders',
