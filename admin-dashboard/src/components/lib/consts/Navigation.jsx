@@ -48,10 +48,10 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 ]
 
 export const DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
-	{
-		key: 'support',
-		label: 'Help',
-		path: '/dashboard/support',
-		icon: <HiOutlineQuestionMarkCircle />
-	},
+	// {
+	// 	key: 'support',
+	// 	label: 'Help',
+	// 	path: '/dashboard/support',
+	// 	icon: <HiOutlineQuestionMarkCircle />
+	// },
 ]
