@@ -7,7 +7,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/api': 'https://admin-dashboard-backend-production-1f5a.up.railway.app',
     },
     host: true,
   },
