@@ -2,7 +2,7 @@ import express from "express"
 import cookieParser from "cookie-parser"
 import cors from "cors"
 import "./utils/orderScheduler.js"
-
+import cycleTimesRoutes from "./routes/cycleTimes.routes.js";
 
 const app = express()
 
@@ -67,6 +67,8 @@ app.use("/api/supplied-inventory",suppliedInventoryRouter)
 app.use("/api/material-supplied", materialSuppliedRouter);
 
 app.use("/api/consumables-inventory", consumablesInventoryRouter);
+
+app.use('/api/cycle-times', cycleTimesRoutes);
 
 app.use(
   cors({

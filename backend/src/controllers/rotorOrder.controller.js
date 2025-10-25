@@ -1,9 +1,18 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { RotorOrder } from "../models/rotorOrder.model.js";
-import { rotorCycleTimes, allRotor } from "../constant.js";
+import { allRotor } from "../constant.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { RotorUtilized } from "../models/rotorUtilized.model.js";
+import fs from "fs";
+import path from "path";
+
+function getRotorCycleTimes() {
+  const filePath = path.join(path.resolve(), "src/data/cycleTimes.json");
+  const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  return data.rotorCycleTimes;
+}
+
 // CREATE ROTOR ORDER
 // const createRotorOrder = asyncHandler(async (req, res) => {
 //   const { rotorType, annexureNumber, quantity } = req.body;
@@ -114,12 +123,12 @@ const createRotorOrder = asyncHandler(async (req, res) => {
   let totalSeconds = 0;
   for (const o of allPending) {
     const remaining = Number(o.quantity) || 0;
-    const ct = rotorCycleTimes[o.rotorType] || 60;
+    const ct = getRotorCycleTimes()[o.rotorType] || 60;
     totalSeconds += remaining * ct;
   }
 
   // Add new order’s remaining time
-  totalSeconds += qtyStillPending * (rotorCycleTimes[rotorType] || 60);
+  totalSeconds += qtyStillPending * (getRotorCycleTimes()[rotorType] || 60);
 
   // Final date calculation
   order.dateOfCompletion = new Date(Date.now() + totalSeconds * 1000);
@@ -174,7 +183,7 @@ const refreshRotorOrderStatus = asyncHandler(async (req, res) => {
     const producedQty = order.quantityProduced ?? 0;
 
     const remainingQty = Math.max(originalQty - producedQty, 0);
-    const cycleTime    = rotorCycleTimes[order.rotorType] || 60;  // default 60 s
+    const cycleTime    = getRotorCycleTimes()[order.rotorType] || 60;  // default 60 s
 
     // Add this order’s work to the virtual queue only if there’s work left
     if (remainingQty > 0) {

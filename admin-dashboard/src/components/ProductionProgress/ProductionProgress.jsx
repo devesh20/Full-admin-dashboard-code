@@ -96,7 +96,7 @@ const ProductionProgressDashboard = () => {
     try {
       // First call the refresh status endpoint
       try {
-        const refreshResponse = await axios.get("/api/routerOrder/refresh-status");
+        await axios.get("/api/routerOrder/refresh-status");
       } catch (refreshError) {
         console.error('Error refreshing status:', refreshError);
         // Continue with data fetch even if refresh fails

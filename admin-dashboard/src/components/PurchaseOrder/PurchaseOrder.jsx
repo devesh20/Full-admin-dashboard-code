@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo} from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,7 @@ import {
 } from '@tanstack/react-table';
 import { Search, RefreshCw } from "lucide-react";
 import { partDetails, rotorDetails } from "@/constant";
-
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 
 export default function PurchaseOrder() {
@@ -41,12 +41,29 @@ export default function PurchaseOrder() {
   const [refreshing, setRefreshing] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [activeTab, setActiveTab] = useState("ongoing");
+  const [showCycleEditor, setShowCycleEditor] = useState(false);
+  const [cycleTimes, setCycleTimes] = useState({});
+  const [rotorCycleTimes, setRotorCycleTimes] = useState({});
+  const [cycleLoading, setCycleLoading] = useState(false);
+  const [cycleError, setCycleError] = useState("");
+  const [cycleSuccess, setCycleSuccess] = useState("");
+  const [cycleTab, setCycleTab] = useState('castings');
 
 
   useEffect(() => {
     fetchOrders();
     fetchRotorOrders();
   }, []);
+
+  // Fetch cycle times from backend
+  useEffect(() => {
+    if (showCycleEditor) {
+      fetchCycleTimes();
+    }
+    // Clear success and error messages when modal is opened or closed
+    setCycleSuccess("");
+    setCycleError("");
+  }, [showCycleEditor]);
 
   const fetchOrders = async () => {
     try {
@@ -163,6 +180,45 @@ export default function PurchaseOrder() {
     } catch (error) {
       console.error("Error refreshing order status", error);
       setRefreshing(false);
+    }
+  };
+
+  const fetchCycleTimes = async () => {
+    setCycleLoading(true);
+    setCycleError("");
+    try {
+      const res = await axios.get("/api/cycle-times");
+      setCycleTimes(res.data.cycleTimes || {});
+      setRotorCycleTimes(res.data.rotorCycleTimes || {});
+    } catch (err) {
+      setCycleError("Failed to fetch cycle times.");
+    } finally {
+      setCycleLoading(false);
+    }
+  };
+
+  const handleCycleChange = (type, key, value) => {
+    if (type === 'casting') {
+      setCycleTimes(prev => ({ ...prev, [key]: Number(value) }));
+    } else {
+      setRotorCycleTimes(prev => ({ ...prev, [key]: Number(value) }));
+    }
+  };
+
+  const handleSaveCycleTimes = async () => {
+    setCycleLoading(true);
+    setCycleError("");
+    setCycleSuccess("");
+    try {
+      await axios.post("/api/cycle-times", {
+        cycleTimes,
+        rotorCycleTimes
+      });
+      setCycleSuccess("Cycle times updated successfully.");
+    } catch (err) {
+      setCycleError("Failed to update cycle times.");
+    } finally {
+      setCycleLoading(false);
     }
   };
 
@@ -559,22 +615,113 @@ export default function PurchaseOrder() {
 
   return (
     <div className="p-4 dark:bg-gray-900 dark:text-white min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Order Management</h1>
+      {/* Cycle Times Editor Button */}
+      <div className="mb-4 flex justify-between">
+        <h1 className="text-2xl font-bold mb-4">Order Management</h1>
+        <Button onClick={() => setShowCycleEditor(true)} className="bg-black text-white cursor-pointer">
+          Edit Cycle Times
+        </Button>
+      </div>
+      {/* Cycle Times Editor Dialog Modal */}
+      <Dialog open={showCycleEditor} onOpenChange={setShowCycleEditor}>
+        <DialogContent className="max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Cycle Times</DialogTitle>
+          </DialogHeader>
+          <Tabs value={cycleTab} onValueChange={setCycleTab} className="w-full">
+            <TabsList className="mb-4 gap-2 sm:col-span-2">
+              <TabsTrigger value="castings">Castings</TabsTrigger>
+              <TabsTrigger value="rotors">Rotors</TabsTrigger>
+            </TabsList>
+            <TabsContent value="castings">
+              <div className="overflow-x-auto">
+                <div className="max-h-[45vh] overflow-y-auto">
+                  <table className="min-w-full border text-sm">
+                    <thead>
+                      <tr className="bg-gray-100 dark:bg-gray-700">
+                        <th className="px-4 py-2 border">Casting Name</th>
+                        <th className="px-4 py-2 border">Cycle Time (sec)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(cycleTimes).map(([key, value]) => (
+                        <tr key={key}>
+                          <td className="px-4 py-2 border font-medium">{key}</td>
+                          <td className="px-4 py-2 border">
+                            <Input
+                              type="number"
+                              value={value}
+                              min={0}
+                              onChange={e => handleCycleChange('casting', key, e.target.value)}
+                              className="w-24"
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="rotors">
+              <div className="overflow-x-auto">
+                <div className="max-h-[45vh] overflow-y-auto">
+                  <table className="min-w-full border text-sm">
+                    <thead>
+                      <tr className="bg-gray-100 dark:bg-gray-700">
+                        <th className="px-4 py-2 border">Rotor Type</th>
+                        <th className="px-4 py-2 border">Cycle Time (sec)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(rotorCycleTimes).map(([key, value]) => (
+                        <tr key={key}>
+                          <td className="px-4 py-2 border font-medium">{key}</td>
+                          <td className="px-4 py-2 border">
+                            <Input
+                              type="number"
+                              value={value}
+                              min={0}
+                              onChange={e => handleCycleChange('rotor', key, e.target.value)}
+                              className="w-24"
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+          {cycleError && <div className="text-red-500 mb-2">{cycleError}</div>}
+          {cycleSuccess && <div className="text-green-600 mb-2">{cycleSuccess}</div>}
+          <DialogFooter className="mt-4 flex gap-2">
+            <Button onClick={handleSaveCycleTimes} className="bg-green-600 text-white cursor-pointer" disabled={cycleLoading}>
+              Save
+            </Button>
+            <Button variant="outline" className="cursor-pointer" onClick={() => setShowCycleEditor(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
 
       {/* Purchase Order Form */}
       <Card className="dark:bg-gray-800 dark:border-gray-700">
         <CardContent className="p-4">
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 flex items-center space-x-2 mb-2">
+            <div className="col-span-2 flex items-center space-x-2 mb-2 ">
               <Checkbox 
                 id="rotor" 
                 checked={isRotor}
                 onCheckedChange={handleRotorCheckboxChange}
-                className="w-5 h-5"
+                className="w-5 h-5 cursor-pointer "
               />
               <label
                 htmlFor="rotor"
-                className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="cursor-pointer text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Rotors
               </label>
@@ -660,6 +807,7 @@ export default function PurchaseOrder() {
               type="number"
               placeholder="Target Qty"
               value={form.quantity}
+              min={0}
               onChange={handleChange}
               required
               className="dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"

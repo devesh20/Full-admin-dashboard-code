@@ -31,6 +31,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 function Header({ onSidebarToggle, isSidebarOpen, isSidebarCompact }) {
   const { user, logout } = useAuth();
@@ -229,6 +230,7 @@ function Header({ onSidebarToggle, isSidebarOpen, isSidebarCompact }) {
       <div className="flex-1"></div>
 
       {/* Actions group */}
+      {/* <ThemeToggle/> */}
       <div className="flex items-center gap-1 md:gap-3 cursor-pointer">
         <Popover>
           <PopoverTrigger asChild>

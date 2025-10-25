@@ -1,10 +1,18 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Order } from "../models/order.model.js";
 import { Diecasting } from "../models/diecasting.model.js";
-import { partDetails, castingDetails, cycleTimes } from "../constant.js";
+import { partDetails, castingDetails,cycleTimes } from "../constant.js";
 import {ApiError} from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { CastingUtilized } from "../models/castingUtilized.model.js";
+import fs from "fs";
+import path from "path";
+
+function getCycleTimes() {
+  const filePath = path.join(path.resolve(), "src/data/cycleTimes.json");
+  const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  return data.cycleTimes;
+}
 
 
 // const createOrder = asyncHandler(async (req, res) => {
@@ -257,12 +265,14 @@ const createOrder = asyncHandler(async (req, res) => {
     if (o._id.equals(order._id)) break;
 
     const remaining = o.quantity - o.quantityProduced;
-    const ct = cycleTimes[o.castingName] || 60;
+    // const ct = cycleTimes[o.castingName] || 60;
+    const ct = getCycleTimes()[o.castingName] || 60;
     totalSeconds += remaining * ct;
   }
 
   const thisRemaining = qty - totalUsed;
-  const thisCT = cycleTimes[castingName] || 60;
+  // const thisCT = cycleTimes[castingName] || 60;
+  const thisCT = getCycleTimes()[castingName] || 60;
   totalSeconds += thisRemaining * thisCT;
 
   order.dateOfCompletion = new Date(now.getTime() + totalSeconds * 1000);
@@ -297,7 +307,8 @@ const refreshOrderStatus = asyncHandler(async (req, res) => {
     const originalQty = order.originalQuantity || order.quantity;
     let quantityProduced = 0;
     const remainingQty = originalQty - order.quantityProduced;
-    const cycleTime = cycleTimes[order.castingName] || 60;
+    // const cycleTime = cycleTimes[order.castingName] || 60;
+    const cycleTime = getCycleTimes()[order.castingName] || 60;
 
     if (remainingQty <= 0) {
       // Order already completed, skip date change

@@ -1,0 +1,35 @@
+{
+  "cycleTimes": {
+    "TERMINAL BOX CAP TYPE": 110,
+    "PDC TERMINAL BOX": 200,
+    "TERMINAL BOX": 95,
+    "TERMINAL BOX COVER": 90,
+    "B48 ENDSHIELD": 130,
+    "B56 ENDSHEILD": 135,
+    "CG RING": 85,
+    "PYRO 1/2\" NPT": 150
+  },
+  "rotorCycleTimes": {
+    "ND 80-4P-68 CL": 80,
+    "ND 80-4P-78 CL": 55,
+    "ND 90-4P-108 CL (STANDARD)": 60,
+    "ND 90-4P-108 CL (FLANGE)": 60,
+    "ND 90-4P-83 CL (STANDARD)": 58,
+    "ND 90-4P-83 CL (FLANGE)": 58,
+    "ND 90-6P-73 CL (STANDARD)": 53,
+    "ND 90-6P-73 CL (FLANGE)": 53,
+    "ND 90-6P-98 CL (STANDARD)": 57,
+    "ND 90-6P-98 CL (FLANGE)": 57,
+    "ND 100-4P-118 CL": 65,
+    "ND 100-6P-118 CL": 70,
+    "ND 112-4P-118 CL": 75,
+    "ND 112-6P-98 CL": 72,
+    "ND 112-6P-118 CL": 78,
+    "BC132-2P-90 CL": 85,
+    "BC132-2P-115 CL": 88,
+    "BC112-4P-130 CL": 82,
+    "BC90-4P-70 CL": 60,
+    "BC90-4P-110 CL": 64,
+    "BC80-4P-70": 52
+  }
+}
