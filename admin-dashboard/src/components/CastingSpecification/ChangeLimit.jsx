@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from '../ui/label';
 import { RxCross1, RxCross2 } from "react-icons/rx";
 import axios from 'axios'
+import { fetchAPI } from "../../api.js"
 
 function ChangeLimit() {
   const [consumablesData, setConsumablesData] = useState([]);
